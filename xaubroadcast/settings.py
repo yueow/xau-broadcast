@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     # 'django.middleware.locale.LocaleMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -133,3 +134,6 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = (
     BASE_DIR / 'static',
 )
+
+# Gzip functionality
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
