@@ -1,0 +1,338 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Price Live</title>
+    {% load static i18n %}
+
+    <!-- Bulma -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <!-- Font Icons -->
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js">
+    </script>
+
+    <!-- JQuery -->
+    <script type="text/javascript"
+        src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js">
+    </script>
+    <script type="text/javascript"
+        src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js">
+    </script>
+
+    <!-- Overhang -->
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'broadcast/css/overhang.min.css' %}" />
+    <script type="text/javascript"
+        src="{% static 'broadcast/js/overhang.min.js' %}"></script>
+
+    <!-- Bulma Extennsion -->
+    <link rel="stylesheet"
+        href="{% static 'broadcast/css/bulma-extensions.min.css' %}">
+    <script type="text/javascript"
+        src="{% static 'broadcast/js/bulma-extensions.min.css' %}"></script>
+
+    <!-- ddSlick for Language Dropdown -->
+    <script
+        src="https://cdn.rawgit.com/prashantchaudhary/ddslick/master/jquery.ddslick.min.js">
+    </script>
+
+    <!-- Range Slider -->
+    <!--Plugin CSS file with desired skin-->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css" />
+
+    <!--Plugin JavaScript file-->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js">
+    </script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="{% static 'broadcast/css/style.css'%}">
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="broadcast-wrapper">
+            <div class="broadcast-header">
+
+                <!-- Language Dropdown -->
+                    <select name='language' id="language-select">
+                        <option value="2"
+                            data-imagesrc="{% static 'broadcast/img/flags/uk.png'%}"
+                            data-language="en">
+                        </option>
+                        <option value="1"
+                            data-imagesrc="{% static 'broadcast/img/flags/china.png'%}"
+                            data-language="ch">
+                        </option>
+                        <option value="0"
+                            data-imagesrc="{% static 'broadcast/img/flags/hk.svg'%}"
+                            data-language="hk">
+                        </option>
+                    </select>
+
+                <p id='settings-modal-cog'><i class="fas fa-cog"></i></p>
+            </div>
+
+            <div class='broadcast-content'>
+                <h1 id="commodity-price"></h1>
+                <p class='has-text-weight-bold'>XAU(<span>oz</span>)/USD</p>
+
+                <!-- TradingView Widget BEGIN -->
+                <div class="tradingview-wrapper">
+                    <div class="tradingview-widget-container">
+                        <div id="tradingview_99cb6"></div>
+                        <div class="tradingview-widget-copyright"><a
+                                href="https://www.tradingview.com/symbols/NASDAQ-AAPL/"
+                                rel="noopener" target="_blank"><span
+                                    class="blue-text">AAPL Chart</span></a> by
+                            TradingView</div>
+                        <script type="text/javascript"
+                            src="https://s3.tradingview.com/tv.js"></script>
+                        <script type="text/javascript">
+                            new TradingView.widget({
+                                "width": 980,
+                                "height": 610,
+                                "symbol": "NASDAQ:AAPL",
+                                "interval": "D",
+                                "timezone": "Etc/UTC",
+                                "theme": "light",
+                                "style": "1",
+                                "locale": "en",
+                                "toolbar_bg": "#f1f3f6",
+                                "enable_publishing": false,
+                                "allow_symbol_change": true,
+                                "container_id": "tradingview_99cb6"
+                            });
+                        </script>
+                    </div>
+                    <!-- TradingView Widget END -->
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Settings Modal -->
+    <div id='settings-modal' class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Settings</p>
+                <button class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+
+                <!-- Price Frequency -->
+                <p><i class="fas fa-wave-square"></i> Price timeout
+                    <input id='price-frequency-range-slider' type="text"
+                        data-min='0' data-max='60' class="js-range-slider"
+                        name="price_frequency" value="1" />
+                </p>
+                <hr>
+
+                <!-- Sound -->
+                <p><i class="fas fa-wave-square"></i> Sound timeout
+                    <input id='sound-frequency-range-slider' type="text"
+                        data-min='0' data-max='60' class="js-range-slider"
+                        name="sound_frequency" value="20" />
+                </p>
+                <p>
+                    <p>Voice Gender</p>
+                    <div class="control">
+                        <div class="select">
+                            <select id='select-gender'>
+                                <option>Male</option>
+                                <option>Female</option>
+                            </select>
+                        </div>
+                    </div>
+                </p>
+
+
+                <p><i class="fas fa-volume-up"></i> Sound Volume
+                    <input id='sound-volume-range-slider' type="text"
+                        data-min='0' data-max='100' class="js-range-slider"
+                        name="sound_volume" value="20" />
+
+                </p>
+
+                <!-- Content -->
+            </section>
+            <footer class="modal-card-foot">
+                <button class="button is-success">Save changes</button>
+                <button class="button close-button">Cancel</button>
+            </footer>
+        </div>
+    </div>
+    <script
+        src="https://code.responsivevoice.org/responsivevoice.js?key=yCWiXxos">
+    </script>
+
+    <!-- <script
+    src="{% static 'broadcast/js/bulma-modal.min.js'%}"> -->
+    </script>
+    <script>
+        let sound_volume = $('#sound-volume-range-slider').val() * 0.01;
+
+        let sound_timeout = $('#sound-frequency-range-slider').val() * 1000;
+        let price_timeout = $('#price-frequency-range-slider').val() * 1000;
+
+        let api_link = 'https://data-asg.goldprice.org/dbXRates/USD';
+
+        let sound_intervalId;
+        let price_intervalId;
+        let voice_gender = $('#select-gender option:selected').text();
+
+        let voices_map = {
+            0: 'UK English',
+            1: 'Chinese',
+            2: 'Chinese (Hong Kong)',
+        }
+        let voice = voices_map[0]
+
+        let text_map = {
+            0: 'Current price is ',
+            1: '當前價格為',
+            2: '當前價格為',
+        }
+        let text_raw = text_map[0]
+
+        // Bulma Modal
+        $('#settings-modal-cog').on('click', function (event) {
+            $('#settings-modal').addClass('is-active');
+        })
+        $('.modal-card-head>button.delete').on('click', function (event) {
+            $('#settings-modal').removeClass('is-active');
+        })
+        $('.modal-card-foot>button.close-button').on('click', function (event) {
+            $('#settings-modal').removeClass('is-active');
+        })
+        // Modal Submit Button
+        $('.modal-card-foot>button.is-success').on('click', function (event) {
+
+            let sound_volume =
+                $('#settings-modal').removeClass('is-active');
+        })
+
+        // Language Dropdown
+        $('#language-select').ddslick({
+            clickOffToClose: true,
+            onSelected: function (selectedData) {
+                // console.log('__________________-');
+                voice = voices_map[selectedData.selectedIndex];
+                text_raw = text_map[selectedData.selectedIndex];
+            }
+        });
+
+        // Voice Gender 
+        $('#select-gender').on('change', function () {
+            voice_gender = this.value;
+        });
+
+        // Gold Price Rates Update
+        function rate_call(link) {
+            fetch(api_link).then(function (response) {
+                return response.json();
+            }).then(function (obj) {
+                let price = obj.items[0]['xauPrice']
+
+                $('#commodity-price').text(price);
+            }).catch(function (error) {
+                // This would be a network error or JSON parsing error
+                console.error('Something went wrong');
+                console.error(error);
+
+            })
+
+        }
+
+        function say_price() {
+
+            let text = `${text_raw} ${$('#commodity-price').text()}`
+
+            responsiveVoice.speak(text, `${voice} ${voice_gender}`, {
+                volume: sound_volume
+            });
+        }
+
+        var rate_interval = setInterval(rate_call, price_timeout, api_link);
+        var sound_price = setInterval(say_price, sound_timeout);
+
+        // Range Sliders
+
+        // Sound Volume
+        $("#sound-volume-range-slider").ionRangeSlider({
+            min: 0,
+            max: 100,
+            type: 'single',
+            step: 1,
+            postfix: " %",
+            prettify: false,
+            hasGrid: true,
+            onFinish: function (data) {
+                sound_volume = data.from * 0.01;
+            }
+        });
+
+
+        function priceInterval(_interval) {
+            price_intervalId = setInterval(rate_call, _interval, api_link)
+        }
+
+        function soundInterval(_interval) {
+            sound_intervalId = setInterval(say_price, _interval)
+        }
+
+        // Sound Frequency
+        $("#sound-frequency-range-slider").ionRangeSlider({
+            min: 5,
+            max: 60,
+            type: 'single',
+            step: 1,
+            prettify: false,
+            hasGrid: true,
+            onFinish: function (data) {
+                console.log('Sound Frequency has changed')
+                sound_timeout = data.from * 1000;
+                console.log(sound_timeout)
+                clearInterval(sound_price);
+                clearInterval(sound_intervalId);
+                soundInterval(sound_timeout);
+            }
+        });
+
+        // Price frequnecy
+        $("#price-frequency-range-slider").ionRangeSlider({
+            min: 0,
+            max: 60,
+            type: 'single',
+            step: 1,
+            prettify: false,
+            hasGrid: true,
+            onFinish: function (data) {
+                price_timeout = data.from * 1000;
+                clearInterval(rate_interval);
+                clearInterval(price_intervalId);
+                priceInterval(price_timeout);
+            }
+        });
+
+        // Notifications
+        $("body").overhang({
+            type: "success",
+            message: "Gold Rate Live Broadcasting Web Application!"
+            // custom: true, // Set custom to true
+            // primary: "#34495E", // Your custom primary color
+            // accent: "#F4B350" // Your custom accent color
+        });
+    </script>
+
+
+</body>
+
+</html>
