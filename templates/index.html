@@ -53,26 +53,25 @@
 
 </head>
 <body>
-
     <div class="container">
         <div class="broadcast-wrapper">
             <div class="broadcast-header">
 
                 <!-- Language Dropdown -->
-                    <select name='language' id="language-select">
-                        <option value="2"
-                            data-imagesrc="{% static 'broadcast/img/flags/uk.png'%}"
-                            data-language="en">
-                        </option>
-                        <option value="1"
-                            data-imagesrc="{% static 'broadcast/img/flags/china.png'%}"
-                            data-language="ch">
-                        </option>
-                        <option value="0"
-                            data-imagesrc="{% static 'broadcast/img/flags/hk.svg'%}"
-                            data-language="hk">
-                        </option>
-                    </select>
+                <select name='language' id="language-select">
+                    <option value="2"
+                        data-imagesrc="{% static 'broadcast/img/flags/uk.png'%}"
+                        data-language="en">
+                    </option>
+                    <option value="1"
+                        data-imagesrc="{% static 'broadcast/img/flags/china.png'%}"
+                        data-language="ch">
+                    </option>
+                    <option value="0"
+                        data-imagesrc="{% static 'broadcast/img/flags/hk.svg'%}"
+                        data-language="hk">
+                    </option>
+                </select>
 
                 <p id='settings-modal-cog'><i class="fas fa-cog"></i></p>
             </div>
@@ -153,7 +152,6 @@
                     </div>
                 </p>
 
-
                 <p><i class="fas fa-volume-up"></i> Sound Volume
                     <input id='sound-volume-range-slider' type="text"
                         data-min='0' data-max='100' class="js-range-slider"
@@ -173,9 +171,6 @@
         src="https://code.responsivevoice.org/responsivevoice.js?key=yCWiXxos">
     </script>
 
-    <!-- <script
-    src="{% static 'broadcast/js/bulma-modal.min.js'%}"> -->
-    </script>
     <script>
         let sound_volume = $('#sound-volume-range-slider').val() * 0.01;
 
@@ -214,7 +209,6 @@
         })
         // Modal Submit Button
         $('.modal-card-foot>button.is-success').on('click', function (event) {
-
             let sound_volume =
                 $('#settings-modal').removeClass('is-active');
         })
@@ -223,7 +217,6 @@
         $('#language-select').ddslick({
             clickOffToClose: true,
             onSelected: function (selectedData) {
-                // console.log('__________________-');
                 voice = voices_map[selectedData.selectedIndex];
                 text_raw = text_map[selectedData.selectedIndex];
             }
@@ -248,11 +241,9 @@
                 console.error(error);
 
             })
-
         }
 
         function say_price() {
-
             let text = `${text_raw} ${$('#commodity-price').text()}`
 
             responsiveVoice.speak(text, `${voice} ${voice_gender}`, {
@@ -326,9 +317,6 @@
         $("body").overhang({
             type: "success",
             message: "Gold Rate Live Broadcasting Web Application!"
-            // custom: true, // Set custom to true
-            // primary: "#34495E", // Your custom primary color
-            // accent: "#F4B350" // Your custom accent color
         });
     </script>
 
